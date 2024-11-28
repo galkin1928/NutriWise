@@ -1,61 +1,63 @@
-//
-//  ContentView.swift
-//  NutriWise
-//
-//  Created by Galkin Alexander on 18.11.2024.
-//
+import SwiftUI
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+	@State private var showCamera = false
+	@State private var proteins: Double? = nil
+	@State private var fats: Double? = nil
+	@State private var carbs: Double? = nil
+	@State private var calories: Double? = nil
+	@State private var isLoading = false
 
-    var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
+	let service = RecognizeFoodService()
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
+	var body: some View {
+		VStack {
+			Button("Сделать фото") {
+				showCamera = true
+			}
+			.padding()
+			.buttonStyle(.borderedProminent)
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+			if isLoading {
+				ProgressView("Загрузка...")
+					.padding()
+					.font(.headline)
+			} else if let proteins = proteins, let fats = fats, let carbs = carbs, let calories = calories {
+				VStack(alignment: .leading, spacing: 10) {
+					Text("Белки: \(proteins, specifier: "%.2f") г")
+					Text("Жиры: \(fats, specifier: "%.2f") г")
+					Text("Углеводы: \(carbs, specifier: "%.2f") г")
+					Text("Калории: \(calories, specifier: "%.2f") ккал")
+				}
+				.font(.headline)
+				.padding()
+			} else {
+				Text("Информация о блюде появится здесь.")
+					.font(.subheadline)
+					.foregroundColor(.gray)
+					.padding()
+			}
+		}
+		.sheet(isPresented: $showCamera) {
+			CameraView { base64 in
+				isLoading = true
+				service.fetchNutritionalData(base64: base64) { result in
+					isLoading = false
+					DispatchQueue.main.async {
+						switch result {
+						case .success(let data):
+							self.proteins = data.proteins
+							self.fats = data.fats
+							self.carbs = data.carbs
+							self.calories = data.calories
+						case .failure(let error):
+							print("Error fetching data: \(error.localizedDescription)")
+						}
+					}
+				}
+			}
+		}
+	}
 }

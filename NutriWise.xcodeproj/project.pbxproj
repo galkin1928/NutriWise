@@ -10,9 +10,22 @@
 		FAA016972CEBC52D00DAD867 /* NutriWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NutriWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FAC2F56D2CF6041900996CBA /* Exceptions for "NutriWise" folder in "NutriWise" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FAA016962CEBC52D00DAD867 /* NutriWise */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FAA016992CEBC52D00DAD867 /* NutriWise */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FAC2F56D2CF6041900996CBA /* Exceptions for "NutriWise" folder in "NutriWise" target */,
+			);
 			path = NutriWise;
 			sourceTree = "<group>";
 		};
@@ -94,6 +107,8 @@
 			);
 			mainGroup = FAA0168E2CEBC52D00DAD867;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FAA016982CEBC52D00DAD867 /* Products */;
 			projectDirPath = "";
@@ -255,6 +270,8 @@
 				DEVELOPMENT_TEAM = 5LR53YT9ES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NutriWise/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We use camera for scan food";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +301,8 @@
 				DEVELOPMENT_TEAM = 5LR53YT9ES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NutriWise/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We use camera for scan food";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
